@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth;
 use App\Http\Controllers\Home;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [Home::class, 'Home'])->name('home');
+Route::get('/login', [Home::class, 'Login'])->name('login');
 
