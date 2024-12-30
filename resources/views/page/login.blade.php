@@ -1,18 +1,29 @@
 @extends('..layout.auth-layout')
-@section('title', 'Login')
+@section('title', 'Login Page')
 
-@section('konten')
+@section('content')
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h1"><img src=""
-                    alt="Girl in a jacket" width="100" height="100"></a>
+                <a href="#" class="h1"><img src="" alt="Logo" width="100" height="100"></a>
             </div>
             <div class="card-body">
-                <form action="" method="POST">
+                <p class="login-box-msg">
+                    @if ($errors->has('email'))
+                    <div class="alert alert-danger">
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                @if ($errors->has('password'))
+                    <div class="alert alert-danger">
+                        {{ $errors->first('password') }}
+                    </div>
+                @endif
+                </p>
+                <form action="{{ route('login.process') }}" method="POST">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="id_user" placeholder="Id User" required>
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -30,7 +41,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
+                                <input type="checkbox" id="remember" name="remember">
                                 <label for="remember">
                                     Remember Me
                                 </label>

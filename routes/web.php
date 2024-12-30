@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth;
-use App\Http\Controllers\Home;
+use App\Http\Controllers\User;
+use App\Http\Controllers\Admin;
+use App\Http\Controllers\AuthUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [Home::class, 'Home'])->name('home');
-Route::get('/login', [Home::class, 'Login'])->name('login');
 
+Route::get('/login', [AuthUser::class, 'Page'])->name('page.login');
+Route::post('/login', [AuthUser::class, 'Login'])->name('login.process');
+Route::group(['middleware' => 'auth.default'], function () {
+    Route::get('/', [User::class, 'User'])->name('buyer')->middleware('role:buyer');;
+    Route::get('/admin', [Admin::class, 'Admin'])->name('admin')->middleware('role:admin,cslayer1,cslayer2');
+    Route::get('/product-control', [Admin::class, 'ProductControl'])->name('products.control')->middleware('role:admin');
+    Route::get('/logout', [AuthUser::class, 'Logout'])->name('logout');
+});

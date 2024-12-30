@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RSBW | @yield('title')</title>
+    <title>App | @yield('title')</title>
     <link rel="icon" href="/img/rs.ico" type="image/x-icon">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
@@ -27,11 +27,8 @@
     <style>
         u {
             border-bottom: 2px solid black;
-            /* Ketebalan garis bawah */
             text-decoration: none;
-            /* Menghilangkan garis bawah default */
             display: inline-block;
-            /* Membuat elemen menjadi blok inline */
             position: relative;
         }
     </style>
@@ -58,7 +55,7 @@
                         <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
                         <a class="dropdown-item" tabindex="-1" href="#">Something else here</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" tabindex="-1" href="">
+                        <a class="dropdown-item" tabindex="-1" href="{{route('logout')}}">
                             <i class='fas fa-sign-out-alt'></i> Logout
                         </a>
                     </div>
@@ -66,21 +63,18 @@
             </ul>
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
             <a href="{{ url('/') }}" class="brand-link">
                 <span class="brand-text font-weight-light">OnlineShop</span>
             </a>
 
-            <!-- INI MENUUU SAMPING -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="/img/user.jpg" class="img-circle elevation-2" alt="User Image" />
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            USER
+                            {{ Auth::user()->name }}
                         </a>
                     </div>
                 </div>
@@ -96,20 +90,20 @@
                             </a>
                         </li>
                         <li class="nav-header user-panel"></li>
-                        <li class="nav-header">Transaksi</li>
+                        <li class="nav-header">Transaction</li>
                         <li class="nav-item">{{-- menu-open --}}
                             <a href="#" class="nav-link">{{-- active --}}
                                 <i class="nav-icon fas fa-credit-card"></i>
                                 <p>
-                                    Keuangan
+                                    Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/returObat') }}" class="nav-link">
+                                    <a href="{{ route('products.control') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Retur Obat</p>
+                                        <p>Products Control</p>
                                     </a>
                                 </li>
                             </ul>
@@ -138,7 +132,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            @yield('konten')
+                            @yield('content')
                         </div>
                     </div>
                 </div>
