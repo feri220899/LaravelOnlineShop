@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\User;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Buyer;
 use App\Http\Controllers\AuthUser;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AuthUser::class, 'Page'])->name('page.login');
 Route::post('/login', [AuthUser::class, 'Login'])->name('login.process');
 Route::group(['middleware' => 'auth.default'], function () {
-    Route::get('/', [User::class, 'User'])->name('buyer')->middleware('role:buyer');;
+    Route::get('/', [Buyer::class, 'User'])->name('buyer')->middleware('role:buyer');;
     Route::get('/admin', [Admin::class, 'Admin'])->name('admin')->middleware('role:admin,cslayer1,cslayer2');
     Route::get('/product-control', [Admin::class, 'ProductControl'])->name('products.control')->middleware('role:admin');
     Route::get('/logout', [AuthUser::class, 'Logout'])->name('logout');

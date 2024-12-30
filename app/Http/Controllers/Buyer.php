@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class User extends Controller
+class Buyer extends Controller
 {
     public function User()
     {
-        return view('page.user');
+        return view('page.buyer');
     }
 }

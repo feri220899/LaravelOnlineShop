@@ -55,7 +55,7 @@
                         <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
                         <a class="dropdown-item" tabindex="-1" href="#">Something else here</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" tabindex="-1" href="{{route('logout')}}">
+                        <a class="dropdown-item" tabindex="-1" href="{{ route('logout') }}">
                             <i class='fas fa-sign-out-alt'></i> Logout
                         </a>
                     </div>
