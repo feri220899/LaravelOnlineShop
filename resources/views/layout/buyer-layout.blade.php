@@ -14,12 +14,12 @@
 </head>
 
 <body class="hold-transition layout-top-nav">
-    @yield('content')
+                    @yield('content')
+    </section>
     @stack('scripts')
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../dist/js/adminlte.min.js"></script>
-    <script src="../../dist/js/demo.js"></script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>

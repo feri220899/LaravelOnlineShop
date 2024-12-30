@@ -138,7 +138,7 @@ class ProductsControl extends Component
                 'description' => $row[2],
                 'price' => (float) $row[3],
                 'stock' => (int) $row[4],
-                'image' => $row[5].$row[6] ?? null,
+                'image' => $row[5].$row[6].$row[7] ?? null,
             ]);
         }
         Storage::delete($livewire_tmp_file);

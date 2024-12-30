@@ -4,7 +4,7 @@
     @livewireStyles
 @endpush
 @section('content')
-@livewire('buyer-page')
+    @livewire('buyer-page')
 @endsection
 @push('scripts')
     @livewireScripts
