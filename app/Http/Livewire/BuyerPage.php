@@ -36,6 +36,7 @@ class BuyerPage extends Component
     public function setKey($key)
     {
         $this->set_key = $key;
+        $this->quantity_count = '1';
     }
 
     public function render()

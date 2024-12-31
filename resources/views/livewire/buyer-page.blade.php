@@ -67,7 +67,7 @@
                 @if (Auth::check() && Auth::user()->role == 'buyer')
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto mr-3">
                         <div class="d-flex">
-                            <button class="btn btn-outline-dark" type="submit">
+                            <button data-toggle="modal" data-target="#DetailCartModal" class="btn btn-outline-dark" type="button">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge bg-dark text-white ms-1 rounded-pill">{{ count($get_carts) }}</span>
                             </button>
@@ -104,8 +104,8 @@
                     </div>
                 </div>
             </header>
-            {{-- Section Products --}}
         @endif
+        {{-- Section Products --}}
         <section>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -117,7 +117,7 @@
                                 <div class="card-body pt-3">
                                     <div class="text-center">
                                         <h5 class="fw-bolder">{{ $product->product_name }}</h5>
-                                        Rp. {{ $product->price }}
+                                        Rp. {{ number_format($product->price, 0, ',', '.') }}
                                         <p>Stok :<span class="float-rigth">{{ $product->stock }}</span></p>
                                     </div>
                                 </div>
@@ -136,72 +136,84 @@
                             </div>
                         </div>
                     @endforeach
-                    <section class="content">
-                        @if (Auth::check() && Auth::user()->role == 'buyer')
-                            <div class="modal fade" id="AddCartModal" tabindex="-10" role="dialog"
-                                aria-hidden="true" wire:ignore.self>
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <div class="row justify-content-center">
-                                                <div class="col-12 text-center">
-                                                    @if (isset($list_products[$set_key]))
-                                                        <div class="card h-100">
-                                                            <img class="card-img-top"
-                                                                src="{{ asset('storage/' . $list_products[$set_key]->image) }}"
-                                                                alt="..."
-                                                                style="object-fit: cover; width: 100%; height: 200px;" />
-                                                            <div class="card-body pt-3">
-                                                                <div class="text-center">
-                                                                    <h5 class="fw-bolder">
-                                                                        {{ $list_products[$set_key]->product_name }}
-                                                                    </h5>
-                                                                    Rp. {{ $list_products[$set_key]->price }}
-                                                                    <p>Stock : <span
-                                                                            class="float-rigth">{{ $list_products[$set_key]->stock }}</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="text-center">
-                                                                    <button class="btn btn-outline-dark btn-sm"
-                                                                        wire:click='quantityCounter(-1)'>
-                                                                        <span class="font-weight-bold mx-2">-</span>
-                                                                    </button>
-                                                                    <span class="mx-2">{{ $quantity_count }}</span>
-                                                                    @php
-                                                                       $disable = $quantity_count >= $list_products[$set_key]->stock ? 'disabled' : '';
-                                                                    @endphp
-                                                                    <button {{$disable}} class="btn btn-outline-dark btn-sm"
-                                                                        wire:click='quantityCounter(1)'>
-                                                                        <span class="font-weight-bold mx-2">+</span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="card-footer px-4 pt-0 border-top-0 bg-transparent">
-                                                                <div class="text-center ">
-                                                                    <button
-                                                                        wire:click='singleAddCart("{{ $set_key }}")'
-                                                                        data-toggle="modal"
-                                                                        data-target="#AddCartModal"
-                                                                        class="btn btn-outline-dark btn-block"
-                                                                        href="#">
-                                                                        <i class="fas fa-shopping-cart"></i> Add to
-                                                                        cart
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    </section>
                 </div>
             </div>
         </section>
     </div>
+    {{-- Modal --}}
+    <section class="content">
+        @if (Auth::check() && Auth::user()->role == 'buyer')
+            <div class="modal fade" id="AddCartModal" tabindex="-10" role="dialog" aria-hidden="true"
+                wire:ignore.self>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col-12 text-center">
+                                    @if (isset($list_products[$set_key]))
+                                        <div class="card h-100">
+                                            <img class="card-img-top"
+                                                src="{{ asset('storage/' . $list_products[$set_key]->image) }}"
+                                                alt="..."
+                                                style="object-fit: cover; width: 100%; height: 200px;" />
+                                            <div class="card-body pt-3">
+                                                <div class="text-center">
+                                                    <h5 class="fw-bolder">
+                                                        {{ $list_products[$set_key]->product_name }}
+                                                    </h5>
+                                                    Rp.{{ number_format($list_products[$set_key]->price, 0, ',', '.') }}
+                                                    <p>Stock : <span
+                                                            class="float-rigth">{{ $list_products[$set_key]->stock }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button class="btn btn-outline-dark btn-sm"
+                                                        wire:click='quantityCounter(-1)'>
+                                                        <span class="font-weight-bold mx-2">-</span>
+                                                    </button>
+                                                    <span class="mx-2">{{ $quantity_count }}</span>
+                                                    @php
+                                                        $disable =
+                                                            $quantity_count >= $list_products[$set_key]->stock
+                                                                ? 'disabled'
+                                                                : '';
+                                                    @endphp
+                                                    <button {{ $disable }} class="btn btn-outline-dark btn-sm"
+                                                        wire:click='quantityCounter(1)'>
+                                                        <span class="font-weight-bold mx-2">+</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer px-4 pt-0 border-top-0 bg-transparent">
+                                                <div class="text-center ">
+                                                    <button wire:click='singleAddCart("{{ $set_key }}")'
+                                                        data-toggle="modal" data-target="#AddCartModal"
+                                                        class="btn btn-outline-dark btn-block" href="#">
+                                                        <i class="fas fa-shopping-cart"></i> Add to
+                                                        cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="DetailCartModal" tabindex="-10" role="dialog" aria-hidden="true"
+                wire:ignore.self>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                @livewire('cart-detail')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </section>
 </div>
