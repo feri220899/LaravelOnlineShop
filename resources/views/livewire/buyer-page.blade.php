@@ -67,7 +67,8 @@
                 @if (Auth::check() && Auth::user()->role == 'buyer')
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto mr-3">
                         <div class="d-flex">
-                            <button data-toggle="modal" data-target="#DetailCartModal" class="btn btn-outline-dark" type="button">
+                            <button wire:click='eventModal' data-toggle="modal" data-target="#DetailCartModal" class="btn btn-outline-dark"
+                                type="button">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge bg-dark text-white ms-1 rounded-pill">{{ count($get_carts) }}</span>
                             </button>
@@ -206,11 +207,7 @@
                 wire:ignore.self>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="row">
-                                @livewire('cart-detail')
-                            </div>
-                        </div>
+                        @livewire('cart-detail')
                     </div>
                 </div>
             </div>

@@ -39,6 +39,11 @@ class BuyerPage extends Component
         $this->quantity_count = '1';
     }
 
+    public function eventModal()
+    {
+        $this->emitTo('cart-detail', 'updateData');
+    }
+
     public function render()
     {
         return view('livewire.buyer-page');
@@ -48,8 +53,8 @@ class BuyerPage extends Component
     {
         $products = Products::where(function ($query) {
             $query->orWhereRaw('LOWER(product_name) like ?', ['%' . strtolower($this->search) . '%'])
-            ->orWhereRaw('LOWER(category) like ?', ['%' . strtolower($this->search) . '%'])
-            ->orWhereRaw('LOWER(description) like ?', ['%' . strtolower($this->search) . '%']);
+                ->orWhereRaw('LOWER(category) like ?', ['%' . strtolower($this->search) . '%'])
+                ->orWhereRaw('LOWER(description) like ?', ['%' . strtolower($this->search) . '%']);
         })->get();
         $this->list_products = $products;
     }
@@ -59,23 +64,25 @@ class BuyerPage extends Component
         $this->get_carts = Carts::where('user_id', Auth::user()->id)->get();
     }
 
-    public function quantityCounter($condition) {
+    public function quantityCounter($condition)
+    {
         $this->quantity_count = max(1, $this->quantity_count + $condition);
     }
 
     public function singleAddCart($key)
     {
         try {
-            $cart = Carts::firstOrNew([
-                'user_id' => Auth::user()->id,
-                'product_id' => $this->list_products[$key]->id,
-            ]);
-            $cart->quantity = ($cart->quantity ?? 0) + $this->quantity_count;
-            $cart->save();
-            $this->getCart();
-            $this->quantity_count = '1';
+            if ($this->quantity_count <= $this->list_products[$key]->stock) {
+                $cart = Carts::firstOrNew([
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $this->list_products[$key]->id,
+                ]);
+                $cart->quantity = ($cart->quantity ?? 0) + $this->quantity_count;
+                $cart->save();
+                $this->getCart();
+                $this->quantity_count = '1';
+            }
         } catch (\Throwable $th) {
-            //throw $th;
         }
     }
 }
