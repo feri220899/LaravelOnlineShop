@@ -1,5 +1,5 @@
 <div>
-    <div class="modal-body overflow-auto" style="max-height: 80vh; scrollbar-width: none;">
+    <div class="modal-body overflow-auto" style="max-height: 75vh; scrollbar-width: none;">
         <div class="row">
             <div class="col-12 d-flex align-items-stretch flex-column">
                 @foreach ($get_carts as $key => $cart)
@@ -12,8 +12,12 @@
                                 </div>
                                 <div class="col-7">
                                     <h2 class="lead"><b>{{ $cart->product->product_name }}</b></h2>
-                                    <span class="text-muted text-sm">Price : Rp. {{ number_format($cart->product->price, 0, ',', '.') }}</span><br>
-                                    <span class="text-muted text-sm"><b>Stock : </b> {{ $cart->product->stock }}</span>
+                                    <span class="text-muted text-sm"><b>Price : Rp. </b>
+                                        {{ number_format($cart->product->price, 0, ',', '.') }}</span><br />
+                                    <span class="text-muted text-sm"><b>Stock : </b>
+                                        {{ $cart->product->stock }}</span><br />
+                                    <span class="text-muted text-sm"><b>Total Price : </b>Rp.
+                                        {{ number_format($price_qount[$key], 0, ',', '.') }}</span><br />
                                     <div class="py-1">
                                         <button class="btn btn-outline-dark btn-sm py-0"
                                             wire:click='cartCounter("{{ $key }}", -1)'>
@@ -23,18 +27,25 @@
                                         @php
                                             $disable = $quantity_count[$key] >= $cart->product->stock ? 'disabled' : '';
                                         @endphp
-                                        <button {{$disable}} class="btn btn-outline-dark btn-sm py-0"
+                                        <button {{ $disable }} class="btn btn-outline-dark btn-sm py-0"
                                             wire:click='cartCounter("{{ $key }}",1)'>
                                             <span class="font-weight-bold mx-2">+</span>
                                         </button>
-
-                                        {{$price_qount[$key]}}
                                     </div>
                                     <div class="mt-2 d-flex">
-                                        <button class="btn btn-sm btn-block btn-outline-dark mr-2">
-                                            <span class="font-weight-bold px-2">Checkout</span>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-dark">
+                                        @if ($quantity_count[$key] > $cart->product->stock)
+                                            <button disabled class="btn btn-sm btn-block btn-outline-dark mr-2">
+                                                <span class="font-weight-bold px-2">Checkout</span>
+                                            </button>
+                                        @else
+                                            <button
+                                                wire:click='singleCheckOut("{{ $key }}", "{{ $cart->id }}")'
+                                                class="btn btn-sm btn-block btn-outline-dark mr-2">
+                                                <span class="font-weight-bold px-2">Checkout</span>
+                                            </button>
+                                        @endif
+                                        <button class="btn btn-sm btn-outline-dark"
+                                            wire:click='cartDelete("{{ $cart->id }}")'>
                                             <div class="fas fa-trash"></div>
                                         </button>
                                     </div>
@@ -46,7 +57,11 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-block btn-outline-dark">Checkout All</button>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted float-left text-lg"><b>Total payment : </b></span>
+            <span class="text-muted"><b>Rp. {{ number_format($total_price, 0, ',', '.') }}</b></span>
+        </div>
+        <button wire:click='checkOutAll' type="button" class="btn btn-block btn-outline-dark my-2 text-lg">Checkout All</button>
     </div>
 </div>

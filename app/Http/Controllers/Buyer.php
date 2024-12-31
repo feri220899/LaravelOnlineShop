@@ -10,4 +10,9 @@ class Buyer extends Controller
     {
         return view('page.buyer');
     }
+
+    public function UserOrder()
+    {
+        return view('page.order');
+    }
 }

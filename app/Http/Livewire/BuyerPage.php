@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Carts;
 use Livewire\Component;
 use App\Models\Products;
-use Illuminate\Support\Facades\DB;
+use App\Services\BuyerServices;
 use Illuminate\Support\Facades\Auth;
 
 class BuyerPage extends Component
@@ -15,7 +15,9 @@ class BuyerPage extends Component
     public $search;
     public $header;
     public $set_key;
+    public $type_modal;
     public $quantity_count;
+    public $total_price;
 
     function mount()
     {
@@ -33,9 +35,10 @@ class BuyerPage extends Component
         $this->header = false;
     }
 
-    public function setKey($key)
+    public function setKey($key, $type)
     {
         $this->set_key = $key;
+        $this->type_modal = $type;
         $this->quantity_count = '1';
     }
 
@@ -55,7 +58,8 @@ class BuyerPage extends Component
             $query->orWhereRaw('LOWER(product_name) like ?', ['%' . strtolower($this->search) . '%'])
                 ->orWhereRaw('LOWER(category) like ?', ['%' . strtolower($this->search) . '%'])
                 ->orWhereRaw('LOWER(description) like ?', ['%' . strtolower($this->search) . '%']);
-        })->get();
+        })->orderBy('id', 'asc')
+            ->get();
         $this->list_products = $products;
     }
 
@@ -72,17 +76,40 @@ class BuyerPage extends Component
     public function singleAddCart($key)
     {
         try {
-            if ($this->quantity_count <= $this->list_products[$key]->stock) {
-                $cart = Carts::firstOrNew([
+            $cart = Carts::where([
+                'user_id' => Auth::user()->id,
+                'product_id' => $this->list_products[$key]->id,
+            ])->first();
+            if ($cart) {
+                session()->flash('error' . $key, 'The product is already in carts!');
+            } else {
+                Carts::create([
                     'user_id' => Auth::user()->id,
                     'product_id' => $this->list_products[$key]->id,
+                    'quantity' =>  $this->quantity_count,
                 ]);
-                $cart->quantity = ($cart->quantity ?? 0) + $this->quantity_count;
-                $cart->save();
                 $this->getCart();
                 $this->quantity_count = '1';
             }
         } catch (\Throwable $th) {
+            //throw $th;
         }
+    }
+
+    public function singleCheckOut($key)
+    {
+        try {
+            BuyerServices::singleCheckOut($this->quantity_count, $this->list_products[$key]->id);
+            $this->flashMessage('Order placed successfully!', 'success');
+            return redirect()->route('order');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function flashMessage($message, $message_type)
+    {
+        session()->flash('message', $message);
+        session()->flash('message_type', $message_type);
     }
 }
