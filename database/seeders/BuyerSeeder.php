@@ -18,9 +18,10 @@ class BuyerSeeder extends Seeder
     {
         // php artisan db:seed --class=BuyerSeeder
             User::create([
-                'name' => 'Buyer User', // Contoh: Admin User
+                'name' => 'Buyer2 User', // Contoh: Admin User
                 'email' => 'buyer2@example.com', // Contoh: admin@example.com
                 'password' => Hash::make('@Password123'), // Hashing password
+                'address' => 'Gn. Terang, Air Hitam, Kabupaten Lampung Barat, Lampung 34871', // Hashing password
                 'role' => 'buyer',
             ]);
     }

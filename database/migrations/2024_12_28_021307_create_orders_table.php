@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('status'); // pending, verified, processing, in_delivery, completed, canceled
+            $table->string('destination_address');
             $table->decimal('grand_total', 20, 1);
             $table->timestamps();
         });

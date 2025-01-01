@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Carts;
 use App\Models\Orders;
 use Livewire\Component;
+use App\Models\Products;
 use App\Models\OrderDetails;
 use App\Services\BuyerServices;
 use Illuminate\Support\Facades\Auth;
@@ -89,18 +91,30 @@ class CartDetail extends Component
 
     public function checkOutAll()
     {
-        $order = Orders::create([
-            'user_id' => Auth::user()->id,
-            'status' => 'waiting_payment', // waiting_payment | failed | confirmed | delivery | finished
-            'grand_total' => $this->total_price // grand_total
-        ]);
-        foreach ($this->get_carts as $value) {
-            OrderDetails::create([
-                'order_id' => $order->id,
-                'product_id' => $value->product->id,
-                'quantity' => $value->quantity,
-                'total' => $value->product->price * $value->quantity,
+        try {
+            $order = Orders::create([
+                'user_id' => Auth::user()->id,
+                'status' => 'waiting_payment', // waiting_payment | failed | confirmed | delivery | finished
+                'destination_address' => Auth::user()->address,
+                'grand_total' => $this->total_price // grand_total
             ]);
+            foreach ($this->get_carts as $value) {
+                OrderDetails::create([
+                    'order_id' => $order->id,
+                    'product_id' => $value->product->id,
+                    'quantity' => $value->quantity,
+                    'total' => $value->product->price * $value->quantity,
+                ]);
+                Carts::where([
+                    'user_id' => Auth::user()->id,
+                    'id' =>  $value->id,
+                ])->delete();
+                Products::find($value->product->id)
+                    ->decrement('stock', $value->quantity);
+            }
+            $this->flashMessage('Order placed successfully!', 'success');
+            return redirect()->route('order');
+        } catch (\Throwable $th) {
         }
     }
 

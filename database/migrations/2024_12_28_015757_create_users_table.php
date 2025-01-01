@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('address');
             $table->string('role'); // admin, pembeli, CS Layer 1, CS Layer 2
             $table->string('remember_token')->nullable(); // Make remember_token nullable
             $table->timestamps();

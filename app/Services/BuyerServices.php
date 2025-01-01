@@ -15,6 +15,7 @@ class BuyerServices
         $order = Orders::create([
             'user_id' => Auth::user()->id,
             'status' => 'waiting_payment', // waiting_payment | failed | confirmed | delivery | finished
+            'destination_address' => Auth::user()->address,
             'grand_total' => $quantity_count * $product->price // grand_total
         ]);
         OrderDetails::create([
