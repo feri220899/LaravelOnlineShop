@@ -75,12 +75,12 @@ Panduan ini menjelaskan langkah-langkah untuk Deployment guite aplikasi toko onl
      ```
    - Edit file `.env` untuk menyesuaikan dengan konfigurasi database Anda:
      ```env
-     DB_CONNECTION=mysql
-     DB_HOST=127.0.0.1
-     DB_PORT=3306
-     DB_DATABASE=nama_database
-     DB_USERNAME=username
-     DB_PASSWORD=password
+    DB_CONNECTION=pgsql
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_DATABASE=shop
+    DB_USERNAME=postgres
+    DB_PASSWORD=root
      ```
 4. **Generate Application Key**:
    ```bash
