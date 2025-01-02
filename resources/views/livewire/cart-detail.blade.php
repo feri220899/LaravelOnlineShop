@@ -62,6 +62,9 @@
             <span class="text-muted float-left text-lg"><b>Total payment : </b></span>
             <span class="text-muted"><b>Rp. {{ number_format($total_price, 0, ',', '.') }}</b></span>
         </div>
-        <button wire:click='checkOutAll' type="button" class="btn btn-block btn-outline-dark my-2 text-lg">Checkout All</button>
+        @if (!empty($get_carts) && count($get_carts) > 0)
+            <button wire:click='checkOutAll' type="button" class="btn btn-block btn-outline-dark my-2 text-lg">Checkout
+                All</button>
+        @endif
     </div>
 </div>

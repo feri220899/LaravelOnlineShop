@@ -82,6 +82,11 @@
                             <i class="fas fa-user"></i>
                         </a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            @if (Auth::check() && Auth::user()->role == 'buyer')
+                            <li>
+                                <a href="{{ route('order') }}" class="dropdown-item">Data Order</a>
+                            </li>
+                            @endif
                             <li>
                                 @if (Auth::check())
                                     <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
