@@ -25,8 +25,8 @@
                                 <th>Items</th>
                                 <th>Buyer</th>
                                 <th>Status</th>
-                                <th class="text-center">Payment</th>
                                 <th>Activator</th>
+                                <th class="text-center">Payment</th>
                                 <th>Grand total</th>
                                 <th class="text-center">Act</th>
                             </tr>
@@ -105,7 +105,10 @@
                                         <td>Rp. {{ number_format($item->grand_total, 0, ',', '.') }}</td>
                                         <td class="text-center">
                                             @if ($item->status == 'verified')
-                                                <i class="fas fa-shipping-fast text-success mx-2"></i> Order is being shipped
+                                                <i class="fas fa-shipping-fast text-success mx-2"></i> Order is being
+                                                shipped
+                                            @elseif ($item->status == 'order_completed')
+                                                <i class="fas fa-check text-success mx-2"></i> Order Completed
                                             @else
                                                 @if ($item->payment)
                                                     @if ($item->payment->status == 'activated')
@@ -114,7 +117,6 @@
                                                     @endif
                                                 @endif
                                             @endif
-
                                         </td>
                                     </tr>
                                 @endif

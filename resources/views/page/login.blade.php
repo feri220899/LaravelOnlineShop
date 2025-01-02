@@ -9,16 +9,19 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">
+                    @if (session('success'))
+                        <div>{{ session('success') }}</div>
+                    @endif
                     @if ($errors->has('email'))
-                    <div class="alert alert-danger">
-                        {{ $errors->first('email') }}
-                    </div>
-                @endif
-                @if ($errors->has('password'))
-                    <div class="alert alert-danger">
-                        {{ $errors->first('password') }}
-                    </div>
-                @endif
+                        <div class="alert alert-danger">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
+                    @if ($errors->has('password'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('password') }}
+                        </div>
+                    @endif
                 </p>
                 <form action="{{ route('login.process') }}" method="POST">
                     @csrf
@@ -49,6 +52,13 @@
                         </div>
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="mb-0">
+                                <a href="{{ route('page.register') }}" class="text-center">Register a new membership</a>
+                            </p>
                         </div>
                     </div>
                 </form>

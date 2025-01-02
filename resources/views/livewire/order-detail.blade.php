@@ -145,15 +145,7 @@
                                     <div class="card d-flex flex-fill shadow-md mx-5 my-3">
                                         <div class="d-flex justify-content-between mx-2 my-1">
                                             <span class="align-self-center">Order Number : {{ $order->id }} </span>
-                                            @if ($order->payment)
-                                                <i class="float-right text-lg fas fa-check"></i>
-                                                </button>
-                                            @else
-                                                <button class="btn float-right btn-sm btn-outline-dark"
-                                                    wire:click='deleteItemOrder("{{ $order->id }}")'>
-                                                    <div class="fas fa-trash"></div>
-                                                </button>
-                                            @endif
+                                            <i class="float-right text-lg fas fa-box"></i>
                                         </div>
                                         @foreach ($order->order_detail as $order_detail)
                                             <div class="card-body bg-light m-2 p-2">
@@ -180,9 +172,11 @@
                                         <div class="card-footer">
                                             @if ($order->payment)
                                                 @if ($order->payment->status == 'pending')
-                                                    <span class=" text-danger my-2 text-lg"><b>Payment is complete, waiting for admin to confirm payment</b></span>
+                                                    <span class=" text-danger my-2 text-lg"><b>Payment is complete,
+                                                            waiting for admin to confirm payment</b></span>
                                                 @else
-                                                    <span class=" text-success my-2 text-lg"><b>Order Activated By : {{$order->payment->user->email}}</b></span>
+                                                    <span class=" text-success my-2 text-lg"><b>Order Activated By :
+                                                            {{ $order->payment->user->email }}</b></span>
                                                 @endif
                                             @endif
                                             <div class="d-flex justify-content-between mb-2">
@@ -212,7 +206,59 @@
                                 </div>
                             </div>
                         @else
-                            {{ $get_list_order }}
+                            <div>
+                                <div class="card d-flex flex-fill shadow-md mx-5 my-3">
+                                    <div class="d-flex justify-content-between mx-2 my-1">
+                                        <span class="align-self-center">Order Number : {{ $order->id }} </span>
+                                        <i class="float-right text-lg fas fa-shipping-fast"></i>
+                                    </div>
+                                    @foreach ($order->order_detail as $order_detail)
+                                        <div class="card-body bg-light m-2 p-2">
+                                            <div class="row">
+                                                <div class="col-5 text-center">
+                                                    <img src="{{ asset('storage/' . $order_detail->product->image) }}"
+                                                        alt="user-avatar" class="img-fluid"
+                                                        style="object-fit: cover; width: 100%; height: 150px;">
+                                                </div>
+                                                <div class="col-6 align-self-center">
+                                                    <h2 class="lead">
+                                                        <b>{{ $order_detail->product->product_name }}</b>
+                                                    </h2>
+                                                    <span class="text-muted text-sm"><b>Price : Rp. </b>
+                                                        {{ number_format($order_detail->product->price, 0, ',', '.') }}
+                                                        X
+                                                        {{ $order_detail->quantity }}</span><br />
+                                                    <span class="text-muted"><b>Total Price : Rp.
+                                                            {{ number_format($order_detail->total, 0, ',', '.') }}</b></span><br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="card-footer">
+                                        @if ($order->payment)
+                                            <span class=" text-success my-2 text-lg">
+                                                <b>
+                                                    <i class="text-lg fas fa-shipping-fast"></i> Order is being shipped
+                                                </b>
+                                            </span>
+                                        @endif
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted float-left">
+                                                <b>
+                                                    Total payment :
+                                                </b>
+                                            </span>
+                                            <span class="text-muted">
+                                                <b>Rp. {{ number_format($order->grand_total, 0, ',', '.') }}
+                                                </b>
+                                            </span>
+                                        </div>
+                                        <button wire:click='receiveOrder({{ $order->id }})' type="button"
+                                            class="btn btn-block btn-outline-dark my-2 text-lg">Receive Order
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <div class="tab-pane fade {{ $order_completed }}" id="order-completed" role="tabpanel"
@@ -229,7 +275,56 @@
                                 </div>
                             </div>
                         @else
-                            {{ $get_list_order }}
+                            <div>
+                                <div class="card d-flex flex-fill shadow-md mx-5 my-3">
+                                    <div class="d-flex justify-content-between mx-2 my-1">
+                                        <span class="align-self-center">Order Number : {{ $order->id }} </span>
+                                        <i class="float-right text-lg fas fa-check"></i>
+                                    </div>
+                                    @foreach ($order->order_detail as $order_detail)
+                                        <div class="card-body bg-light m-2 p-2">
+                                            <div class="row">
+                                                <div class="col-5 text-center">
+                                                    <img src="{{ asset('storage/' . $order_detail->product->image) }}"
+                                                        alt="user-avatar" class="img-fluid"
+                                                        style="object-fit: cover; width: 100%; height: 150px;">
+                                                </div>
+                                                <div class="col-6 align-self-center">
+                                                    <h2 class="lead">
+                                                        <b>{{ $order_detail->product->product_name }}</b>
+                                                    </h2>
+                                                    <span class="text-muted text-sm"><b>Price : Rp. </b>
+                                                        {{ number_format($order_detail->product->price, 0, ',', '.') }}
+                                                        X
+                                                        {{ $order_detail->quantity }}</span><br />
+                                                    <span class="text-muted"><b>Total Price : Rp.
+                                                            {{ number_format($order_detail->total, 0, ',', '.') }}</b></span><br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted float-left">
+                                                <b>
+                                                    Total payment :
+                                                </b>
+                                            </span>
+                                            <span class="text-muted">
+                                                <b>Rp. {{ number_format($order->grand_total, 0, ',', '.') }}
+                                                </b>
+                                            </span>
+                                        </div>
+                                        @if ($order->payment)
+                                            <span class=" text-success my-2 text-lg">
+                                                <b>
+                                                    <i class="text-lg fas fa-check"></i> Order completed
+                                                </b>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <div class="tab-pane fade {{ $cancelled }}" id="cancelled" role="tabpanel"
@@ -246,7 +341,54 @@
                                 </div>
                             </div>
                         @else
-                            {{ $get_list_order }}
+                            <div>
+                                <div class="card d-flex flex-fill shadow-md mx-5 my-3">
+                                    <div class="d-flex justify-content-between mx-2 my-1">
+                                        <span class="align-self-center">Order Number : {{ $order->id }} </span>
+                                        <i class="float-right text-lg fas fa-ban"></i>
+                                    </div>
+                                    @foreach ($order->order_detail as $order_detail)
+                                        <div class="card-body bg-light m-2 p-2">
+                                            <div class="row">
+                                                <div class="col-5 text-center">
+                                                    <img src="{{ asset('storage/' . $order_detail->product->image) }}"
+                                                        alt="user-avatar" class="img-fluid"
+                                                        style="object-fit: cover; width: 100%; height: 150px;">
+                                                </div>
+                                                <div class="col-6 align-self-center">
+                                                    <h2 class="lead">
+                                                        <b>{{ $order_detail->product->product_name }}</b>
+                                                    </h2>
+                                                    <span class="text-muted text-sm"><b>Price : Rp. </b>
+                                                        {{ number_format($order_detail->product->price, 0, ',', '.') }}
+                                                        X
+                                                        {{ $order_detail->quantity }}</span><br />
+                                                    <span class="text-muted"><b>Total Price : Rp.
+                                                            {{ number_format($order_detail->total, 0, ',', '.') }}</b></span><br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted float-left">
+                                                <b>
+                                                    Total payment :
+                                                </b>
+                                            </span>
+                                            <span class="text-muted">
+                                                <b>Rp. {{ number_format($order->grand_total, 0, ',', '.') }}
+                                                </b>
+                                            </span>
+                                        </div>
+                                        <span class=" text-danger my-2 text-lg">
+                                            <b>
+                                                <i class="text-lg fas fa-ban"></i> Order cancelled
+                                            </b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -278,8 +420,8 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button wire:click='checkOutAll({{ $order_id }})' type="button" class="btn btn-primary"
-                                             data-dismiss="modal">Submit
+                                        <button wire:click='checkOutAll({{ $order_id }})' type="button"
+                                            class="btn btn-primary" data-dismiss="modal">Submit
                                         </button>
                                     </div>
                                 </div>

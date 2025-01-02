@@ -102,7 +102,7 @@
                                     <td class="text-center">
                                         @if ($item->payment)
                                             @if ($item->payment->status == 'activated')
-                                                <i class="fas fa-check text-success mx-2"></i> Activate
+                                                <i class="fas fa-check text-success mx-2"></i> Activated
                                             @else
                                                 @if ($item->status == 'payment_success')
                                                     <button wire:click='activiedPayment({{ $item->id }})'

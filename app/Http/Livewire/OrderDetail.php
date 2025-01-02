@@ -100,9 +100,19 @@ class OrderDetail extends Component
             Orders::where('id', $order_id)->update([
                 'status' => 'payment_success',
             ]);
+            $this->status = 'payment_success';
             $this->getListorder();
         } catch (\Throwable $th) {
         }
+    }
+
+    public function receiveOrder($order_id) {
+        Orders::where('id', $order_id)
+        ->where( 'user_id', Auth::user()->id)
+        ->update([
+            'status' => 'order_completed',
+        ]);
+        $this->status = 'order_completed';
     }
 
     public function orderExpired()

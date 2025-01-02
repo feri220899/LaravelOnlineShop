@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [AuthUser::class, 'Page'])->name('page.login');
+Route::get('/login', [AuthUser::class, 'LoginPage'])->name('page.login');
 Route::post('/login', [AuthUser::class, 'Login'])->name('login.process');
+Route::get('/register', [AuthUser::class, 'RegisterPage'])->name('page.register');
+Route::post('/register', [AuthUser::class, 'Register'])->name('register.process');
 Route::get('/', [Buyer::class, 'User'])->name('buyer');
 Route::group(['middleware' => 'auth.default'], function () {
     Route::get('/order', [Buyer::class, 'UserOrder'])->name('order')->middleware('role:buyer');
