@@ -58,6 +58,7 @@ class OrderDetail extends Component
         $this->get_list_order =  Orders::with('order_detail.product')->with('payment.user')
             ->where('status', $this->status)
             ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 
@@ -114,6 +115,7 @@ class OrderDetail extends Component
             'status' => 'order_completed',
         ]);
         $this->status = 'order_completed';
+        $this->getListorder();
     }
 
     public function orderExpired()
