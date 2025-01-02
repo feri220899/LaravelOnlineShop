@@ -10,9 +10,14 @@ class Admin extends Controller
     {
         return view('page.home');
     }
+
     public function ProductControl()
     {
         return view('page.products-control');
+    }
+
+    public function csLayer1() {
+        return view('page.cs-layer1');
     }
 
 }

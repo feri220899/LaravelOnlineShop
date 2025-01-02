@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\BuyerServices;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,7 @@ class AuthUser extends Controller
 {
     public function Page()
     {
+        BuyerServices::orderExpired();
         return view('page.login');
     }
     public function Login(LoginRequest $request)

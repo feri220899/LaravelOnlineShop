@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Orders;
 use App\Models\Products;
 use App\Models\OrderDetails;
@@ -27,5 +28,21 @@ class BuyerServices
         Products::find($product->id)
             ->decrement('stock', $quantity_count);
         return;
+    }
+
+    public static function orderExpired()
+    {
+        $orders = Orders::with('order_detail.product')->with('payment')
+            ->where('status', 'waiting_payment')
+            ->where('created_at', '<', Carbon::now()->subHours(24)) // Filters orders older than 24 hours
+            ->get();
+        foreach ($orders as $item) {
+            foreach ($item->order_detail as $detail) {
+                Products::where('id', $detail->product_id)->increment('stock', $detail->quantity);
+            }
+            Orders::where('id', $item->id)->update([
+                'status' => 'cancelled',
+            ]);
+        }
     }
 }

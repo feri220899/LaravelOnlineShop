@@ -132,7 +132,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="p-5">
                                     <div class="card-body text-center">
-                                        <h2><i class="text-muted fas fa-clipboard-list"></i></h2>
+                                        <h2><i class="text-muted fas fa-box"></i></h2>
                                         <p class="card-text text-muted mb-3">You currently do not have any paid orders
                                         </p>
                                         <a href="{{ route('buyer') }}" class="btn btn-outline-dark btn-sm">Back</a>
@@ -204,7 +204,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="p-5">
                                     <div class="card-body text-center">
-                                        <h2><i class="text-muted fas fa-clipboard-list"></i></h2>
+                                        <h2><i class="text-muted fas fa-shipping-fast"></i></h2>
                                         <p class="card-text text-muted mb-3">You currently do not have any orders being
                                             shipped</p>
                                         <a href="{{ route('buyer') }}" class="btn btn-outline-dark btn-sm">Back</a>
@@ -221,7 +221,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="p-5">
                                     <div class="card-body text-center">
-                                        <h2><i class="text-muted fas fa-clipboard-list"></i></h2>
+                                        <h2><i class="text-muted fas fa-clipboard-check"></i></h2>
                                         <p class="card-text text-muted mb-3">You currently do not have any completed
                                             orders</p>
                                         <a href="{{ route('buyer') }}" class="btn btn-outline-dark btn-sm">Back</a>
@@ -238,7 +238,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="p-5">
                                     <div class="card-body text-center">
-                                        <h2><i class="text-muted fas fa-clipboard-list"></i></h2>
+                                        <h2><i class="text-muted fas fa-ban"></i></h2>
                                         <p class="card-text text-muted mb-3">You currently do not have any completed
                                             orders</p>
                                         <a href="{{ route('buyer') }}" class="btn btn-outline-dark btn-sm">Back</a>
@@ -278,8 +278,8 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-primary"
-                                            wire:click='checkOutAll({{ $order_id }})' data-dismiss="modal">Submit
+                                        <button wire:click='checkOutAll({{ $order_id }})' type="button" class="btn btn-primary"
+                                             data-dismiss="modal">Submit
                                         </button>
                                     </div>
                                 </div>

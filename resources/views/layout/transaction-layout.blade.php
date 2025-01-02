@@ -82,7 +82,7 @@
                     <ul id="sidebarnav" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview"
                         role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{ url('/') }}" class="nav-link">
+                            <a href="{{ route('admin') }}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Home
@@ -91,23 +91,26 @@
                         </li>
                         <li class="nav-header user-panel"></li>
                         <li class="nav-header">Transaction</li>
-                        <li class="nav-item">{{-- menu-open --}}
-                            <a href="#" class="nav-link">{{-- active --}}
-                                <i class="nav-icon fas fa-credit-card"></i>
-                                <p>
-                                    Products
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('products.control') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Products Control</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if (in_array(Auth::user()->role, ['admin']))
+                            <li class="nav-item">
+                                <a href="{{ route('products.control') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-clipboard-list"></i>
+                                    <p>
+                                        Products Control
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                        @if (in_array(Auth::user()->role, ['admin', 'cslayer1']))
+                            <li class="nav-item">
+                                <a href="{{ route('products.cslayer1') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>
+                                        Orders
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
 
                 </nav>
