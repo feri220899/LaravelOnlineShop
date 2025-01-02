@@ -1,12 +1,14 @@
 # Panduan User Melakukan Transaksi
 
 ## 1. Melihat Barang
+- login aplikasi dengan user yang tersedia di database ataupun registrasi di menu registrasi
 - Buka halaman utama toko online.
 - Cari barang yang ingin dibeli menggunakan fitur pencarian atau filter.
-- Klik pada barang untuk melihat detail, termasuk deskripsi, harga, dan ketersediaan stok.
+- Klik pada barang untuk melihat  harga, dan ketersediaan stok.
 
-## 2. Menambahkan Barang ke Keranjang
-- Klik tombol **Tambah ke Keranjang** pada barang yang ingin dibeli.
+## 2. Menambahkan Barang ke Keranjang ataupun langsung checkout barang
+- Klik tombol **Checkout** pada barang yang ingin dibeli ataupun .
+- Klik tombol **Icon Tambah ke Keranjang** pada barang yang ingin dibeli.
 - Periksa isi keranjang dengan mengklik ikon keranjang di sudut kanan atas.
 - Pastikan jumlah barang yang diinginkan sudah sesuai. Anda dapat mengubah jumlah barang langsung di halaman keranjang.
 
@@ -34,9 +36,8 @@
 - Anda dapat melacak status pengiriman barang melalui halaman **Riwayat Pesanan** di akun Anda.
 
 ## 7. Menerima Barang
-- Barang akan dikirim ke alamat yang Anda masukkan saat checkout.
-- Pastikan untuk memeriksa barang setelah diterima.
-- Jika ada masalah, hubungi Customer Service.
+- Barang akan dikirim 
+- klik Recive Order untuk menyelesaikan
 
 ---
 

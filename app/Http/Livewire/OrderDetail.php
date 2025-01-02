@@ -78,6 +78,7 @@ class OrderDetail extends Component
         $order->update([
             'status' => 'cancelled',
         ]);
+        $this->status = 'cancelled';
         $this->getListorder();
     }
 
