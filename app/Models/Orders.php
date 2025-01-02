@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Payments;
 use App\Models\OrderDetails;
 use Illuminate\Database\Eloquent\Model;
@@ -27,5 +28,10 @@ class Orders extends Model
     public function order_detail()
     {
         return $this->hasMany(OrderDetails::class, 'order_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

@@ -55,7 +55,7 @@ class OrderDetail extends Component
 
     public function getListorder()
     {
-        $this->get_list_order =  Orders::with('order_detail.product')->with('payment')
+        $this->get_list_order =  Orders::with('order_detail.product')->with('payment.user')
             ->where('status', $this->status)
             ->where('user_id', Auth::user()->id)
             ->get();
@@ -87,7 +87,7 @@ class OrderDetail extends Component
             $this->validate();
             $proof_image_path = null;
             if (isset($this->proof_image[$order_id])) {
-                $proof_image_path = $this->proof_image[$order_id]->storeAs('payments', $this->proof_image[$order_id]->getClientOriginalName(), 'local');
+                $proof_image_path = $this->proof_image[$order_id]->storeAs('payments', $this->proof_image[$order_id]->getClientOriginalName(), 'public');
                 $livewire_tmp_file = 'livewire-tmp/' . $this->proof_image[$order_id]->getFileName();
                 Storage::delete($livewire_tmp_file);
             }

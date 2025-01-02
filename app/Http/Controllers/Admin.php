@@ -16,8 +16,13 @@ class Admin extends Controller
         return view('page.products-control');
     }
 
-    public function csLayer1() {
+    public function csLayer1()
+    {
         return view('page.cs-layer1');
     }
 
+    public function csLayer2()
+    {
+        return view('page.cs-layer2');
+    }
 }

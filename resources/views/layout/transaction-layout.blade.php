@@ -106,7 +106,17 @@
                                 <a href="{{ route('products.cslayer1') }}" class="nav-link">
                                     <i class="nav-icon fas fa-boxes"></i>
                                     <p>
-                                        Orders
+                                        Orders (Cs Layer 1)
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+                        @if (in_array(Auth::user()->role, ['admin', 'cslayer2']))
+                            <li class="nav-item">
+                                <a href="{{ route('products.cslayer2') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>
+                                        Orders (Cs Layer 2)
                                     </p>
                                 </a>
                             </li>

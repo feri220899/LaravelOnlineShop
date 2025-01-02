@@ -182,7 +182,7 @@
                                                 @if ($order->payment->status == 'pending')
                                                     <span class=" text-danger my-2 text-lg"><b>Payment is complete, waiting for admin to confirm payment</b></span>
                                                 @else
-                                                    <span class=" text-success my-2 text-lg"><b>Order Activated By : {{$order->payment->verified_by}}</b></span>
+                                                    <span class=" text-success my-2 text-lg"><b>Order Activated By : {{$order->payment->user->email}}</b></span>
                                                 @endif
                                             @endif
                                             <div class="d-flex justify-content-between mb-2">
