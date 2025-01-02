@@ -47,7 +47,7 @@
 
 ---
 
-## Deployment guite 
+# Deployment guite 
 Panduan ini menjelaskan langkah-langkah untuk Deployment guite aplikasi toko online sederhana, melakukan migrasi database, dan menambahkan data awal menggunakan seeder.
 
 ---
