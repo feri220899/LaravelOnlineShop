@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer update
+RUN composer install
 
 
 # =========================
@@ -17,14 +17,11 @@ RUN composer update
 FROM php:8.0-fpm
 
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
+    libpq-dev \
     libzip-dev \
+    zip \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_pgsql
+ && docker-php-ext-install pdo pdo_pgsql zip
 
 WORKDIR /app
 
