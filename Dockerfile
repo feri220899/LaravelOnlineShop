@@ -1,22 +1,24 @@
 # =========================
 # STAGE 1: Composer (build vendor)
 # =========================
-FROM composer:2 AS vendor
+FROM composer:2-php8.0 AS vendor
 
 WORKDIR /app
 
-# Copy file composer
 COPY composer.json composer.lock ./
 
-# Install dependency PHP (tanpa dev)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-progress \
+    --ignore-platform-req=ext-gd
 
 # =========================
-# STAGE 2: PHP-FPM runtime
+# STAGE 2: PHP-FPM runtime (Laravel)
 # =========================
 FROM php:8.0-fpm
 
-# Install paket OS yang dibutuhkan extension PHP
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
@@ -34,21 +36,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy seluruh source code Laravel ke image
 COPY . .
 
-# Copy folder vendor hasil build di stage 1
 COPY --from=vendor /app/vendor ./vendor
 
-# Optional: kalau kamu sudah punya .env.production di repo,
-# bisa di-copy ke .env:
-# COPY .env.production .env
-
-# Permission storage & bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 775 storage/bootstrap/cache
 
-# Expose port FPM
 EXPOSE 9000
-
 CMD ["php-fpm"]
