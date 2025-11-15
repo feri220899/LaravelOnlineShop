@@ -9,13 +9,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction \
-    --no-progress \
-    --no-scripts \
-    --ignore-platform-req=php \
-    --ignore-platform-req=ext-gd
+    --optimize-autoloader
 
 
 # =========================
