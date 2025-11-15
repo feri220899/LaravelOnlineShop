@@ -1,14 +1,11 @@
 # =========================
 # STAGE 1: Composer (build vendor)
 # =========================
-FROM composer:2 AS vendor
-# (lebih aman pakai composer:2 daripada latest, biar ga tiba-tiba lompat versi PHP)
+FROM php:8.0-cli AS vendor
 
 WORKDIR /app
 
 COPY composer.json composer.lock ./
-
-RUN composer install
 
 
 # =========================
@@ -21,13 +18,15 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
- && docker-php-ext-install pdo pdo_pgsql zip
+ && pdo pdo_pgsql zip
 
 WORKDIR /app
 
 COPY . .
 
 COPY --from=vendor /app/vendor ./vendor
+
+RUN composer install
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
  && chmod -R 775 storage bootstrap/cache
