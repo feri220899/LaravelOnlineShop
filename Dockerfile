@@ -9,16 +9,12 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install dependency PHP (tanpa dev)
-RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction \
-    --no-progress
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # =========================
 # STAGE 2: PHP-FPM runtime
 # =========================
-FROM php:8.2-fpm
+FROM php:8.0-fpm
 
 # Install paket OS yang dibutuhkan extension PHP
 RUN apt-get update && apt-get install -y \
