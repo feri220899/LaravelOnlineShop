@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer update && composer install --no-dev --optimize-autoloader
+RUN composer update && composer install --optimize-autoloader
 
 
 # =========================
@@ -17,19 +17,14 @@ RUN composer update && composer install --no-dev --optimize-autoloader
 FROM php:8.0-fpm
 
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    zlib1g-dev \
-    libonig-dev \
-    libjpeg-dev \
     libpng-dev \
+    libjpeg-dev \
     libfreetype6-dev \
-    git \
+    zip \
+    libzip-dev \
     unzip \
- && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install gd \
- && docker-php-ext-install pdo_pgsql mbstring zip \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_pgsql
 
 WORKDIR /app
 
