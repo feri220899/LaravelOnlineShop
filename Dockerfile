@@ -12,7 +12,9 @@ RUN composer install \
     --optimize-autoloader \
     --no-interaction \
     --no-progress \
+    --ignore-platform-req=php \
     --ignore-platform-req=ext-gd
+
 
 # =========================
 # STAGE 2: PHP-FPM runtime (Laravel)
