@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/app
     networks:
-      - shared-net
+      - shared_network
     environment:
       APP_URL: ${APP_URL}
       DB_CONNECTION: ${DB_CONNECTION}
@@ -30,8 +30,8 @@ services:
       - .:/app
       - .default.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - shared-net
+      - shared_network
 
 networks:
-  shared-net:
+  shared_network:
     external: true
