@@ -7,6 +7,7 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
+RUN composer install
 
 # =========================
 # STAGE 2: PHP-FPM runtime (Laravel)
@@ -25,8 +26,6 @@ WORKDIR /app
 COPY . .
 
 COPY --from=vendor /app/vendor ./vendor
-
-RUN composer install
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
  && chmod -R 775 storage bootstrap/cache
