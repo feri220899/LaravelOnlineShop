@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer update && composer install --optimize-autoloader
+RUN composer update
 
 
 # =========================
