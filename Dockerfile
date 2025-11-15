@@ -8,8 +8,7 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer install \
-    --optimize-autoloader
+RUN composer install
 
 
 # =========================
