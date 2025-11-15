@@ -1,7 +1,7 @@
 # =========================
 # STAGE 1: Composer (build vendor)
 # =========================
-FROM composer:2-php8.0 AS vendor
+FROM composer:latest-php8.0 AS vendor
 
 WORKDIR /app
 
