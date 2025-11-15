@@ -2,21 +2,21 @@ FROM php:8.0-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
+    libpq-dev \
+    libzip-dev \
+    zlib1g-dev \
+    libonig-dev \
     libjpeg-dev \
+    libpng-dev \
     libfreetype6-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
     git \
-    curl \
-    libpq-dev
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
-RUN docker-php-ext-install pdo pdo_pgsql mbstring tokenizer zip
+RUN docker-php-ext-install \
+    pdo_pgsql \
+    mbstring \
+    zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
