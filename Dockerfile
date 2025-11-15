@@ -1,34 +1,31 @@
 # =========================
-# STAGE 1: Composer (build vendor)
-# =========================
-FROM php:8.0-cli AS vendor
-
-WORKDIR /app
-
-COPY composer.json composer.lock ./
-
-RUN composer install
-
-# =========================
-# STAGE 2: PHP-FPM runtime (Laravel)
+# PHP-FPM untuk DEVELOPMENT
 # =========================
 FROM php:8.0-fpm
 
+# Install package OS yang dibutuhkan extension PHP
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
-    zip \
+    zlib1g-dev \
+    libonig-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    git \
     unzip \
- && pdo pdo_pgsql zip
+    vim \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install gd pdo_pgsql mbstring zip \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Set working directory
 WORKDIR /app
 
-COPY . .
-
-COPY --from=vendor /app/vendor ./vendor
-
-RUN chown -R www-data:www-data storage bootstrap/cache \
- && chmod -R 775 storage bootstrap/cache
+RUN chown -R www-data:www-data /app
 
 EXPOSE 9000
+
 CMD ["php-fpm"]
