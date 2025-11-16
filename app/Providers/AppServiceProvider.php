@@ -29,6 +29,5 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.url')) {
             URL::forceRootUrl(config('app.url'));
         }
-        Livewire::component('products-control', ProductsControl::class);
     }
 }
