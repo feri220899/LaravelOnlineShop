@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // ROUTE PREfix
+Route::prefix('/laravel')->group(function () {
     Route::get('/login', [AuthUser::class, 'LoginPage'])->name('page.login');
     Route::post('/login', [AuthUser::class, 'Login'])->name('login.process');
     Route::get('/register', [AuthUser::class, 'RegisterPage'])->name('page.register');
@@ -29,3 +30,4 @@ use Illuminate\Support\Facades\Route;
         Route::get('/product-control', [Admin::class, 'ProductControl'])->name('products.control')->middleware('role:admin');
         Route::get('/logout', [AuthUser::class, 'Logout'])->name('logout');
     });
+});
