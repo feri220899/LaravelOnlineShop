@@ -28,6 +28,6 @@ class Admin extends Controller
 
     public function test()
     {
-        return view('page.show-posts');
+        return view('page.test');
     }
 }
