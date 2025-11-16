@@ -28,4 +28,5 @@ Route::group(['middleware' => 'auth.default'], function () {
     Route::get('/cslayer2', [Admin::class, 'csLayer2'])->name('products.cslayer2')->middleware('role:admin,cslayer2');
     Route::get('/product-control', [Admin::class, 'ProductControl'])->name('products.control')->middleware('role:admin');
     Route::get('/logout', [AuthUser::class, 'Logout'])->name('logout');
+    Route::get('/test', [Admin::class, 'test'])->name('products.test')->middleware('role:admin');
 });

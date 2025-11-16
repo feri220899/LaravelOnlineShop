@@ -25,4 +25,9 @@ class Admin extends Controller
     {
         return view('page.cs-layer2');
     }
+
+    public function test()
+    {
+        return view('page.products-control');
+    }
 }
