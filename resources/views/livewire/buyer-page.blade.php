@@ -94,6 +94,7 @@
                                     <a href="{{ route('page.login') }}" class="dropdown-item">Login</a>
                                 @endif
                             </li>
+                            {{ route('page.login') }}
                         </ul>
                     </li>
                 </ul>

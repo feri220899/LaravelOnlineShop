@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     @stack('styles')
 </head>
-    <!-- check route -->
-                         {{url()->current()}}
 <body class="hold-transition layout-top-nav">
                     @yield('content')
     </section>
